@@ -3,6 +3,7 @@ var AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "home",
         "wines"	: "list",
+		"wines/country/:country"	: "country",
         "wines/page/:page"	: "list",
         "wines/add"         : "addWine",
         "wines/:id"         : "wineDetails",
@@ -30,11 +31,24 @@ var AppRouter = Backbone.Router.extend({
         }});
         this.headerView.selectMenuItem('home-menu');
     },
+	
+	country: function(country) {
+        var wineList = new WineCollectionByCountry([],{country:country});
+        wineList.fetch({success: function(){
+            $("#content").html(new WineListViewByCountry({model: wineList}).el);
+        }});
+        this.headerView.selectMenuItem('home-menu');
+    },
 
     wineDetails: function (id) {
         var wine = new Wine({_id: id});
         wine.fetch({success: function(){
             $("#content").html(new WineView({model: wine}).el);
+			var wineList = new WineCollectionByCountry([],{country:wine.get("country")});
+			wineList.fetch({success: function(){
+				console.log(wineList);
+				$("#content").append(new WineListViewByCountry({model: wineList}).el);
+			}});
         }});
         this.headerView.selectMenuItem();
     },

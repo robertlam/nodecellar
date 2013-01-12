@@ -37,6 +37,16 @@ exports.findAll = function(req, res) {
     });
 };
 
+exports.findByCountry = function(req, res) {
+	var country = req.params.country;
+    console.log('Retrieving wine collection by country: ' + country);
+	db.collection('wines', function(err, collection) {
+        collection.find({'country':country}).toArray(function(err, items) {
+            res.send(items);
+        });
+    });
+};
+
 exports.addWine = function(req, res) {
     var wine = req.body;
     console.log('Adding wine: ' + JSON.stringify(wine));

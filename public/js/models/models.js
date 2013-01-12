@@ -60,3 +60,17 @@ window.WineCollection = Backbone.Collection.extend({
     url: "/wines"
 
 });
+
+window.WineCollectionByCountry = Backbone.Collection.extend({
+
+    model: Wine,
+	
+	initialize: function(models, options) {
+		this.country = options.country;
+	},
+	
+	url: function() {
+		return '/wines/country/' + this.country;
+	}
+
+});

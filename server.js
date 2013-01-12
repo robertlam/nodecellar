@@ -14,6 +14,7 @@ app.configure(function () {
 
 app.get('/wines', wine.findAll);
 app.get('/wines/:id', wine.findById);
+app.get('/wines/country/:country', wine.findByCountry);
 app.post('/wines', wine.addWine);
 app.put('/wines/:id', wine.updateWine);
 app.delete('/wines/:id', wine.deleteWine);
